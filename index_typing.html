@@ -18,7 +18,7 @@
         <h1>Typing Game</h1>
         <div class="marker"></div>
       </div>
-      <div v-if="startFlg">
+      <div v-if="started">
         <div class="question mb-20">{{ currentQuestion }}</div>
 
         <div v-if="currentQuestionCounts == questionCounts" class="clear">
@@ -51,7 +51,7 @@
       new Vue({
         el: "#app",
         data: {
-          startFlg: "",
+          started: false,
           currentQuestion: "",
           questions: ["apple", "banana", "chocolate", "donut", "espresso"],
           typeBox: "",
@@ -74,7 +74,7 @@
         },
         methods: {
           gameStart: function () {
-            this.startFlg = true;
+            this.started = true;
 
             this.$nextTick(function () {
               document.getElementById("typeForm").focus();
