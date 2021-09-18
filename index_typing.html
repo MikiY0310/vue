@@ -32,7 +32,7 @@
         <div class="gaugeWrapper mb-20">
           <div v-bind:style="styleObject" class="gauge"></div>
         </div>
-        <div>{{ currentQuestionCounts }}/{{ questionCounts }}</div>
+        <div>{{ currentQuestionCounts }}/{{ questionCount }}</div>
       </div>
 
       <button v-else class="start mb-20" @click="gameStart">
@@ -48,12 +48,16 @@
           questions: ["apple", "banana", "chocolate", "donut", "espresso"],
           inputValue: "",
           currentQuestionCounts: 0,
-          questionCounts: 0,
         },
         computed: {
           finished() {
-            return this.currentQuestionCounts === this.questionCounts;
+            return this.currentQuestionCounts === this.questionCount;
           },
+
+          questionCount() {
+            return this.questions.length;
+          },
+
           styleObject: function () {
             width = 20 * this.currentQuestionCounts + "%";
             if (this.currentQuestionCounts == 5) {
@@ -79,7 +83,6 @@
 
         mounted: function () {
           this.currentQuestion = this.questions[0];
-          this.questionCounts = this.questions.length;
         },
 
         watch: {
