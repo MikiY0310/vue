@@ -23,12 +23,7 @@
 
         <div v-if="currentQuestionCounts == questionCounts" class="clear">
           <p>Clear!</p>
-          <button
-            class="start mb-20"
-            onclick="location.href='http://mikiy.html.xdomain.jp/vue_quiz/index_typing.html'"
-          >
-            RESTART
-          </button>
+          <a class="start mb-20" href="index_typing.html">RESTART</a>
         </div>
         <div
           v-if="currentQuestionCounts != questionCounts"
