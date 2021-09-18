@@ -18,10 +18,6 @@
         <h1>Typing Game</h1>
         <div class="marker"></div>
       </div>
-      <button v-if="!startFlg" class="start mb-20" @click="gameStart">
-        START
-      </button>
-
       <div v-if="startFlg">
         <div class="question mb-20">{{ currentQuestion }}</div>
 
@@ -46,6 +42,10 @@
         </div>
         <div>{{ currentQuestionCounts }}/{{ questionCounts }}</div>
       </div>
+
+      <button v-else class="start mb-20" @click="gameStart">
+        START
+      </button>
     </div>
     <script>
       new Vue({
