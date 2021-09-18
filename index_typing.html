@@ -25,10 +25,7 @@
           <p>Clear!</p>
           <a class="start mb-20" href="index_typing.html">RESTART</a>
         </div>
-        <div
-          v-if="currentQuestionCounts != questionCounts"
-          class="typeFormWrapper mb-20"
-        >
+        <div v-else class="typeFormWrapper mb-20">
           <input ref="input" v-model="inputValue" type="text" class="typeForm" />
         </div>
 
