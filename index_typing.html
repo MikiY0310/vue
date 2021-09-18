@@ -30,7 +30,7 @@
         </div>
 
         <div class="gaugeWrapper mb-20">
-          <div v-bind:style="styleObject" class="gauge"></div>
+          <div :style="{ width: progressBarWidth + '%', backgroundColor: progressBarColor }" class="gauge"></div>
         </div>
         <div>{{ currentQuestionIndex }}/{{ questionCount }}</div>
       </div>
@@ -61,17 +61,12 @@
             return this.questions[this.currentQuestionIndex];
           },
 
-          styleObject: function () {
-            width = 20 * this.currentQuestionIndex + "%";
-            if (this.finished) {
-              color = "#03a9f4";
-            } else {
-              color = "orange";
-            }
-            return {
-              width: width,
-              "background-color": color,
-            };
+          progressBarColor() {
+            return this.finished ? "#03a9f4" : "orange";
+          },
+
+          progressBarWidth() {
+            return this.currentQuestionIndex / this.questionCount * 100;
           },
         },
         methods: {
