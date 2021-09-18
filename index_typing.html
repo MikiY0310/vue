@@ -9,7 +9,6 @@
     <meta name="robots" content="noindex,nofollow" />
     <title>Typing Game</title>
     <link rel="stylesheet" href="style.css" />
-    <!-- vue.js読み込み -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
   </head>
 
@@ -76,18 +75,18 @@
         methods: {
           gameStart: function () {
             this.startFlg = true;
-            // カーソルを合わせる
+
             this.$nextTick(function () {
               document.getElementById("typeForm").focus();
             });
           },
         },
-        // 描画されたタイミング
+
         mounted: function () {
           this.currentQuestion = this.questions[0];
           this.questionCounts = this.questions.length;
         },
-        // 入力値 typeBoxが変わる度に走る処理
+
         watch: {
           typeBox: function (e) {
             e = e.toLowerCase();
