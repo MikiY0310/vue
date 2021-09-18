@@ -32,7 +32,7 @@
         <div class="gaugeWrapper mb-20">
           <div v-bind:style="styleObject" class="gauge"></div>
         </div>
-        <div>{{ currentQuestionCounts }}/{{ questionCount }}</div>
+        <div>{{ currentQuestionIndex }}/{{ questionCount }}</div>
       </div>
 
       <button v-else class="start mb-20" @click="gameStart">
@@ -44,23 +44,26 @@
         el: "#app",
         data: {
           started: false,
-          currentQuestion: "",
+          currentQuestionIndex: 0,
           questions: ["apple", "banana", "chocolate", "donut", "espresso"],
           inputValue: "",
-          currentQuestionCounts: 0,
         },
         computed: {
           finished() {
-            return this.currentQuestionCounts === this.questionCount;
+            return this.currentQuestionIndex === this.questionCount;
           },
 
           questionCount() {
             return this.questions.length;
           },
 
+          currentQuestion() {
+            return this.questions[this.currentQuestionIndex];
+          },
+
           styleObject: function () {
-            width = 20 * this.currentQuestionCounts + "%";
-            if (this.currentQuestionCounts == 5) {
+            width = 20 * this.currentQuestionIndex + "%";
+            if (this.finished) {
               color = "#03a9f4";
             } else {
               color = "orange";
@@ -74,6 +77,7 @@
         methods: {
           gameStart: function () {
             this.started = true;
+            this.currentQuestionIndex = 0;
 
             this.$nextTick(function () {
               this.$refs['input'].focus();
@@ -81,16 +85,12 @@
           },
         },
 
-        mounted: function () {
-          this.currentQuestion = this.questions[0];
-        },
-
         watch: {
           inputValue: function (value) {
             value = value.toLowerCase();
             if (value == this.currentQuestion) {
               this.inputValue = "";
-              this.currentQuestionCounts = this.currentQuestionCounts + 1;
+              this.currentQuestionIndex++;
             }
           },
         },
