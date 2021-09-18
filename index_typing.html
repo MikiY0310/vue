@@ -21,7 +21,7 @@
       <div v-if="started">
         <div class="question mb-20">{{ currentQuestion }}</div>
 
-        <div v-if="currentQuestionCounts == questionCounts" class="clear">
+        <div v-if="finished" class="clear">
           <p>Clear!</p>
           <a class="start mb-20" href="index_typing.html">RESTART</a>
         </div>
@@ -51,6 +51,9 @@
           questionCounts: 0,
         },
         computed: {
+          finished() {
+            return this.currentQuestionCounts === this.questionCounts;
+          },
           styleObject: function () {
             width = 20 * this.currentQuestionCounts + "%";
             if (this.currentQuestionCounts == 5) {
