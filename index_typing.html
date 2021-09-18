@@ -18,7 +18,7 @@
         <h1>Typing Game</h1>
         <div class="marker"></div>
       </div>
-      <button v-if="startFlg != true" class="start mb-20" @click="gameStart">
+      <button v-if="!startFlg" class="start mb-20" @click="gameStart">
         START
       </button>
 
