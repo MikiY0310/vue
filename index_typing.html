@@ -29,7 +29,7 @@
           v-if="currentQuestionCounts != questionCounts"
           class="typeFormWrapper mb-20"
         >
-          <input id="typeForm" v-model="typeBox" type="text" class="typeForm" />
+          <input ref="input" v-model="typeBox" type="text" class="typeForm" />
         </div>
 
         <div class="gaugeWrapper mb-20">
@@ -72,7 +72,7 @@
             this.started = true;
 
             this.$nextTick(function () {
-              document.getElementById("typeForm").focus();
+              this.$refs['input'].focus();
             });
           },
         },
