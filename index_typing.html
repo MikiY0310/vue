@@ -19,12 +19,12 @@
         <h1>Typing Game</h1>
         <div class="marker"></div>
       </div>
-      <button v-if="startFlg!=true" class="start mb-20" @click="gameStart">
+      <button v-if="startFlg != true" class="start mb-20" @click="gameStart">
         START
       </button>
 
       <div v-if="startFlg">
-        <div class="question mb-20">{{ current_question}}</div>
+        <div class="question mb-20">{{ current_question }}</div>
 
         <div v-if="current_question_counts == question_counts" class="clear">
           <p>Clear!</p>
@@ -45,7 +45,7 @@
         <div class="gaugeWrapper mb-20">
           <div v-bind:style="styleObject" class="gauge"></div>
         </div>
-        <div>{{current_question_counts}}/{{question_counts}}</div>
+        <div>{{ current_question_counts }}/{{ question_counts }}</div>
       </div>
     </div>
     <script>
