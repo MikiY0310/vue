@@ -1,104 +1,95 @@
 <!DOCTYPE html>
 <html lang="ja">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <meta name="robots" content="noindex,nofollow">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- vue.js読み込み -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Typing Game</title>
+    <link rel="stylesheet" href="style.css" />
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="app" class="container">
-        <div class="title">
-            <h1>Typing Game</h1>
-            <div class="marker"></div>
+      <div class="title">
+        <h1>Typing Game</h1>
+        <div class="marker"></div>
+      </div>
+      <div v-if="started">
+        <div class="question mb-20">{{ currentQuestion }}</div>
+
+        <div v-if="finished" class="clear">
+          <p>Clear!</p>
+          <button class="start mb-20" @click="gameStart">RESTART</button>
         </div>
-        <button v-if="startFlg!=true" class="start mb-20" @click="gameStart">START</button>
-
-        <div v-if="startFlg">
-            <div class="question mb-20">{{ current_question}}</div>
-            
-            <div v-if="current_question_counts == question_counts" class="clear">
-                <p>Clear!</p>
-                <button class="start mb-20" onclick="location.href='http://mikiy.html.xdomain.jp/vue_quiz/index_typing.html'">RESTART</button>
-            </div>
-            <div v-if="current_question_counts != question_counts" class="typeFormWrapper mb-20">
-                <input id ="typeForm" v-model="typeBox" type="text" class="typeForm">
-            </div>
-
-            <div class="gaugeWrapper mb-20">
-                <div v-bind:style="styleObject" class="gauge"></div>
-            </div>
-            <div>{{current_question_counts}}/{{question_counts}}</div>
+        <div v-else class="typeFormWrapper mb-20">
+          <input ref="input" v-model="inputValue" type="text" class="typeForm" />
         </div>
 
+        <div class="gaugeWrapper mb-20">
+          <div :style="{ width: progressBarWidth + '%', backgroundColor: progressBarColor }" class="gauge"></div>
+        </div>
+        <div>{{ currentQuestionIndex }}/{{ questionCount }}</div>
+      </div>
+
+      <button v-else class="start mb-20" @click="gameStart">
+        START
+      </button>
     </div>
     <script>
-        new Vue({
-            el: "#app",
-            data: {
-                startFlg: "",
-                current_question:"",
-                questions:[
-                    'apple',
-                    'banana',
-                    'chocolate',
-                    'donut',
-                    'espresso'
-                ],
-                typeBox:"",
-                current_question_counts:0,
-                question_counts:0
-            },
-            computed:{
-                styleObject: function(){
-                    width = 20 * this.current_question_counts + "%"
-                    if(this.current_question_counts == 5){
-                        color = "#03a9f4"
-                    }else{
-                        color = "orange"
-                    }
-                    return{
-                        'width':width,
-                        'background-color':color
-                    }
-                }
-            },
-            methods: {
-                gameStart: function () {
-                    this.startFlg = true;
-                    // カーソルを合わせる
-                    this.$nextTick(function(){
-                        document.getElementById('typeForm').focus()
-                    })
-                }
-            },
-            // 描画されたタイミング
-            mounted:function(){
-                this.current_question = this.questions[0]
-                this.question_counts = this.questions.length
-            },
-            // 入力値 typeBoxが変わる度に走る処理
-            watch:{
-                typeBox: function(e){
-                    e = e.toLowerCase();
-                    if(e == this.current_question){
-                        this.questions.splice(0,1)
-                        this.current_question = this.questions[0]                        
-                        this.typeBox = ""
-                        this.current_question_counts = this.current_question_counts + 1
-                    }
-                }
-            }
-        })
-    </script>
-</body>
+      new Vue({
+        el: "#app",
+        data: {
+          started: false,
+          currentQuestionIndex: 0,
+          questions: ["apple", "banana", "chocolate", "donut", "espresso"],
+          inputValue: "",
+        },
+        computed: {
+          finished() {
+            return this.currentQuestionIndex === this.questionCount;
+          },
 
+          questionCount() {
+            return this.questions.length;
+          },
+
+          currentQuestion() {
+            return this.questions[this.currentQuestionIndex];
+          },
+
+          progressBarColor() {
+            return this.finished ? "#03a9f4" : "orange";
+          },
+
+          progressBarWidth() {
+            return this.currentQuestionIndex / this.questionCount * 100;
+          },
+        },
+        methods: {
+          gameStart: function () {
+            this.started = true;
+            this.currentQuestionIndex = 0;
+
+            this.$nextTick(function () {
+              this.$refs['input'].focus();
+            });
+          },
+        },
+
+        watch: {
+          inputValue: function (value) {
+            value = value.toLowerCase();
+            if (value == this.currentQuestion) {
+              this.inputValue = "";
+              this.currentQuestionIndex++;
+            }
+          },
+        },
+      });
+    </script>
+  </body>
 </html>
